@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>トップページ</title>
+  </head>
+  <body>
+    <!-- <h1>トップページ</h1>
+    <img src="./takagi.png" alt="" /> -->
+
+    <input type="text" id="msg" />
+    <button type="button" id="btn">送信</button>
+
+    <ul id="res">
+      <li>発言が表示されます</li>
+    </ul>
+
+    <!-- socket.io CDN -->
+    <script
+      src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const socket = io();
+      const msg = document.getElementById("msg");
+      const btn = document.getElementById("btn");
+      const res = document.getElementById("res");
+
+      btn.addEventListener("click", () => {
+        let value = msg.value;
+        if (!value) {
+          return;
+        }
+
+        // const li = document;
+        // li.textContent = value;
+        // res.appendChild(li);
+
+        socket.emit("message", value);
+      });
+
+      socket.on("re_message", (recive) => {
+        const li = document.createElement("li");
+        li.textContent = recive;
+        res.appendChild(li);
+      });
+    </script>
+  </body>
+</html>
